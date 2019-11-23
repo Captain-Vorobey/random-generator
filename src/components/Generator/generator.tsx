@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import '../../App.css';
 import names from '../../assets/name.json'
 import surnames from '../../assets/secondname.json'
 import ages from '../../assets/age.json'
 import streets from '../../assets/streets.json'
+import './generator.css';
 import getRandom from "../Random/random";
 import People from "../People/people";
 
@@ -54,9 +54,9 @@ export default class Generator extends Component {
                         Radnomize
                         <button className="button" onClick={this.handleClick}>click</button>
                     </div>
-                    <ul style={{listStyleType:"none"}}>
+                    <div style={{listStyleType: "none", textAlign: "center"}}>
                         {people}
-                    </ul>
+                    </div>
                 </div>
             </div>
         );

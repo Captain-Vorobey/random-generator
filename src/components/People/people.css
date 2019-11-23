@@ -1,0 +1,9 @@
+.people {
+    margin: 5px 0 ;
+    background-color: slategray;
+    border-radius: 5px;
+    color: lightgreen;
+    width: 170px;
+    text-align: center;
+    display: inline-block;
+}
