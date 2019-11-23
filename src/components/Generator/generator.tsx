@@ -31,7 +31,7 @@ export default class Generator extends Component {
                 {
                     name: this.getRandomName(),
                     surname: this.getRandomSurnames(),
-                    age: this.getRandomSurnames(),
+                    age: this.getRandomAge(),
                     street: this.getRandomStreet()
                 }
             ]
