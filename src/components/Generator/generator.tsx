@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import '../App.css';
-import names from '../assets/name.json'
-import surnames from '../assets/secondname.json'
-import ages from '../assets/age.json'
-import streets from '../assets/streets.json'
-import getRandom from "./Random/random";
+import '../../App.css';
+import names from '../../assets/name.json'
+import surnames from '../../assets/secondname.json'
+import ages from '../../assets/age.json'
+import streets from '../../assets/streets.json'
+import getRandom from "../Random/random";
+import People from "../People/people";
 
 export default class Generator extends Component {
     state = {
@@ -61,12 +62,3 @@ export default class Generator extends Component {
         );
     }
 }
-
-// @ts-ignore
-const People = ({name, surname, age, street}) => (
-    <div className="people">
-        <div>{surname + " " + name}</div>
-        <div>Age:{age}</div>
-        <div>Street:{street}</div>
-    </div>
-)

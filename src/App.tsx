@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Generator from "./components/generator";
+import Generator from "./components/Generator/generator";
 
 const App: React.FC = () => {
   return (
