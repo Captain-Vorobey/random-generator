@@ -5,9 +5,8 @@ import surnames from '../assets/secondname.json'
 import ages from '../assets/age.json'
 import streets from '../assets/streets.json'
 import getRandom from "./Random/random";
-import People from "./People/people";
 
-class Generator extends Component {
+export default class Generator extends Component {
     state = {
         people: [
             {
@@ -26,10 +25,15 @@ class Generator extends Component {
 
     createPeople = () => {
         this.setState({
-            name: this.getRandomName(),
-            surname: this.getRandomSurnames(),
-            age: this.getRandomSurnames(),
-            street: this.getRandomStreet()
+            people: [
+                ...this.state.people,
+                {
+                    name: this.getRandomName(),
+                    surname: this.getRandomSurnames(),
+                    age: this.getRandomSurnames(),
+                    street: this.getRandomStreet()
+                }
+            ]
         })
     };
 
@@ -45,9 +49,24 @@ class Generator extends Component {
         return (
             <div>
                 <div>
-                    <button onClick={this.handleClick}></button>
+                    <div className="header">
+                        Radnomize
+                        <button className="button" onClick={this.handleClick}>click</button>
+                    </div>
+                    <ul style={{listStyleType:"none"}}>
+                        {people}
+                    </ul>
                 </div>
             </div>
         );
     }
 }
+
+// @ts-ignore
+const People = ({name, surname, age, street}) => (
+    <div className="people">
+        <div>{surname + " " + name}</div>
+        <div>Age:{age}</div>
+        <div>Street:{street}</div>
+    </div>
+)
