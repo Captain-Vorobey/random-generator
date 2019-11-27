@@ -1,64 +1,128 @@
-import React, { Component } from 'react';
-import names from '../../assets/name.json'
-import surnames from '../../assets/secondname.json'
-import ages from '../../assets/age.json'
-import streets from '../../assets/streets.json'
+import React, {Component} from 'react';
 import './generator.css';
-import getRandom from "../Random/random";
-import People from "../People/people";
+import Person from "../People/person";
+import {getInformation} from "../api-service/api-service";
+import {convertDate} from "../util/convertDate";
+import Spinner from "../spinner/spinner"
+import Button from "../buttons/buttons";
+import {createId} from "../util/createId";
+
+interface Information {
+    people: Array<object>;
+}
 
 export default class Generator extends Component {
     state = {
         people: [
             {
-                name: "Egor",
-                surname: "Vorobyov",
-                age: "19",
-                street: "Jakubova"
-            }
-        ]
+                yName: "NAME",
+                yGender: "GENDER",
+                ySurname: "SURNAME",
+                yBirthday: "YOUR_AGE",
+                yStreet: "STREET",
+                yCity: "CITY",
+                yPicture: "../../images/user",
+                yId: "ID"
+            },
+        ],
+        loading: false
     };
 
-    getRandomName = () => getRandom(names);
-    getRandomSurnames = () => getRandom(surnames);
-    getRandomAge = () => getRandom(ages);
-    getRandomStreet = () => getRandom(streets);
-
     createPeople = () => {
+        // @ts-ignore
+        const id = createId();
+        getInformation().then((res) => {
+            this.setState({
+                people: [
+                    {
+                        //@ts-ignore
+                        yName: res.name.first,
+                        //@ts-ignore
+                        ySurname: res.name.last,
+                        //@ts-ignore
+                        yBirthday: convertDate(res.dob.date),
+                        //@ts-ignore
+                        yGender: res.gender,
+                        //@ts-ignore
+                        yPicture: res.picture.large,
+                        //@ts-ignore
+                        yStreet: res.location.street.name,
+                        //@ts-ignore
+                        yId: id,
+                        //@ts-ignore
+                        yCity: res.location.city,
+                    },
+                    ...this.state.people,
+                ],
+                loading: false,
+            } as Information);
+            console.log(res);
+        });
+    };
+
+    addPersonClicked = () => {
         this.setState({
-            people: [
-                ...this.state.people,
+            loading: true
+        });
+        this.createPeople();
+    };
+
+    cleanClicked = () => {
+        this.setState({
+            people:[
                 {
-                    name: this.getRandomName(),
-                    surname: this.getRandomSurnames(),
-                    age: this.getRandomAge(),
-                    street: this.getRandomStreet()
+                    yName: "NAME",
+                    yGender: "GENDER",
+                    ySurname: "SURNAME",
+                    yBirthday: "YOUR_AGE",
+                    yStreet: "STREET",
+                    yCountry: "COUNTRY",
+                    yPicture: "../../images/user",
+                    yId: "ID",
+                    yCity: "CITY",
                 }
             ]
         })
-    };
-
-    handleClick = () => this.createPeople();
+    }
 
     render(): React.ReactElement<any, string | React.JSXElementConstructor<any>> | string | number | {} | React.ReactNodeArray | React.ReactPortal | boolean | null | undefined {
-
-        const people: Array<object> = this.state.people.map((people) => (
-            <div>
-                <People name={people.name} surname={people.surname} street={people.street} age={people.age}/>
-            </div> ));
+        let people: any = null;
+        if(this.state.loading){
+            people = <Spinner/>
+        }
+        else {
+             people = this.state.people.map(people => (
+                    <Person
+                            name={people.yName}
+                            surname={people.ySurname}
+                            gender={people.yGender}
+                            birthday={people.yBirthday}
+                            picture={people.yPicture}
+                            street={people.yStreet}
+                            city={people.yCity}
+                            id={people.yId}/>
+                ));
+        }
 
         return (
-            <div>
+            <header>
                 <div>
                     <div className="header">
-                        Radnomize
-                        <button className="button" onClick={this.handleClick}>click</button>
+                        <div className="header-text">Randomize</div>
                     </div>
-                    <div style={{listStyleType: "none", textAlign: "center"}}>
-                        {people}
+                    <div className="backgroundFlexBox">
+                        <Button classN="button-random" onclick={this.cleanClicked}>
+                            <i className="fa fa-lg fa-apple"/>
+                        </Button>
+                        <div className="flexbox style-1">
+                            {people}
+                        </div>
+                        <Button classN="button-random" onclick={this.addPersonClicked}>
+                            <i className="fa fa-lg fa-random"/>
+                        </Button>
                     </div>
                 </div>
-            </div>
+            </header>
         );
     }
 }

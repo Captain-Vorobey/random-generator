@@ -1,0 +1,14 @@
+.button-random {
+    width: 40px;
+    height: 250px;
+    outline: none;
+    border: 3px solid black;
+    font-family: "Lucida Sans Unicode";
+    background-color: rgba(0,0,0, .7);
+    color: whitesmoke;
+}
+.button-random:hover {
+    background-color: rgba(0,0,0, .8);
+    box-shadow: 0 0 2px black;
+    transition: all .5s ease;
+}
